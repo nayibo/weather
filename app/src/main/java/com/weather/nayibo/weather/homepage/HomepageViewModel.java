@@ -3,6 +3,8 @@ package com.weather.nayibo.weather.homepage;
 import android.databinding.ObservableField;
 import android.util.Log;
 
+import com.weather.nayibo.weather.App;
+import com.weather.nayibo.weather.Utils.ReadFileUtils;
 import com.weather.nayibo.weather.base.BaseViewModel;
 import com.weather.nayibo.weather.download.DownloadInfo;
 import com.weather.nayibo.weather.download.DownloadManager;
@@ -10,8 +12,17 @@ import com.weather.nayibo.weather.download.DownloadObserver;
 import com.weather.nayibo.weather.retrofit.RetrofitHelper;
 import com.weather.nayibo.weather.stack.StackManager;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +47,7 @@ public class HomepageViewModel extends BaseViewModel {
             }
         });
         startDownloadCity();
+        getCityName();
     }
 
     private void startDownloadCity() {
@@ -48,7 +60,7 @@ public class HomepageViewModel extends BaseViewModel {
             @Override
             public void onNext(@NonNull DownloadInfo downloadInfo) {
                 super.onNext(downloadInfo);
-                Log.d("nayibo", "percent: " + 100 * downloadInfo.getProgress() / downloadInfo.getTotal()+ " filename: " + downloadInfo.getFileName());
+                Log.d("nayibo", "percent: " + 100 * downloadInfo.getProgress() / downloadInfo.getTotal() + " filename: " + downloadInfo.getFileName());
             }
 
             @Override
@@ -78,5 +90,36 @@ public class HomepageViewModel extends BaseViewModel {
     public void goList() {
 //        StackManager.getInstance().startNewUI(new ListPage(), StackAction.ADD);
         getDate(4444);
+    }
+
+    private void getCityName() {
+        Observable
+                .create(new ReadFileUtils(App.context.getExternalCacheDir().getPath() + File.separator + "china-city-list(8).txt"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull String s) {
+                        String[] a = s.split("\\t");
+                        if (a.length == 12) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("nayibo", "读取完毕");
+                    }
+                });
     }
 }
