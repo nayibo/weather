@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.weather.nayibo.weather.search.SearchSuggestItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onViewAttachedToWindow="@{vm::onViewAttachedToWindow}"
+        android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
+        android:orientation="horizontal"
+        app:onClick="@{vm::selectItem}">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@{vm.cityName}"
+            android:textSize="20sp" />
+    </LinearLayout>
+</layout>

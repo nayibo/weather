@@ -6,7 +6,7 @@ import com.weather.nayibo.weather.App;
 import com.weather.nayibo.weather.search.SearchPage;
 import com.weather.nayibo.weather.stack.StackAction;
 import com.weather.nayibo.weather.stack.StackManager;
-import com.weather.nayibo.weather.utils.CityBean;
+import com.weather.nayibo.weather.search.CityBean;
 import com.weather.nayibo.weather.utils.Constant;
 import com.weather.nayibo.weather.utils.ReadFileUtils;
 import com.weather.nayibo.weather.base.BaseViewModel;

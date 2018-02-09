@@ -1,5 +1,7 @@
 package com.weather.nayibo.weather.utils;
 
+import com.weather.nayibo.weather.search.CityBean;
+
 import java.util.ArrayList;
 
 /**

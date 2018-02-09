@@ -4,6 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
+        <import type="com.weather.nayibo.weather.search.SearchSuggestItemBinding" />
 
         <variable
             name="vm"
@@ -28,6 +30,11 @@
             android:id="@+id/rv_suggest"
             android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            app:itemBinding="@{SearchSuggestItemBinding.get()}"
+            app:layoutManager="@{LayoutManagers.linear()}"
+            app:isGone="@{vm.suggestVisibility}"
+            app:onItemBound="@{vm::onItemBound}"
+            app:items="@{vm.items}"/>
     </LinearLayout>
 </layout>

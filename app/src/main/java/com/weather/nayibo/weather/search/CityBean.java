@@ -1,4 +1,4 @@
-package com.weather.nayibo.weather.utils;
+package com.weather.nayibo.weather.search;
 
 /**
  * Created by nayibo on 2018/2/8.
