@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.weather.nayibo.weather.search.SearchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onViewAttachedToWindow="@{vm::onViewAttachedToWindow}"
+        android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            app:watcher="@{vm.textChanged}" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_suggest"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</layout>

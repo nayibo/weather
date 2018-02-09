@@ -1,12 +1,7 @@
-package com.weather.nayibo.weather.Utils;
+package com.weather.nayibo.weather.utils;
 
-
-import android.util.Log;
-
-import com.weather.nayibo.weather.App;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 

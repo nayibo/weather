@@ -1,21 +1,22 @@
 package com.weather.nayibo.weather.homepage;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
 import com.weather.nayibo.weather.App;
-import com.weather.nayibo.weather.Utils.ReadFileUtils;
+import com.weather.nayibo.weather.search.SearchPage;
+import com.weather.nayibo.weather.stack.StackAction;
+import com.weather.nayibo.weather.stack.StackManager;
+import com.weather.nayibo.weather.utils.CityBean;
+import com.weather.nayibo.weather.utils.Constant;
+import com.weather.nayibo.weather.utils.ReadFileUtils;
 import com.weather.nayibo.weather.base.BaseViewModel;
 import com.weather.nayibo.weather.download.DownloadInfo;
 import com.weather.nayibo.weather.download.DownloadManager;
 import com.weather.nayibo.weather.download.DownloadObserver;
 import com.weather.nayibo.weather.retrofit.RetrofitHelper;
-import com.weather.nayibo.weather.stack.StackManager;
+import com.weather.nayibo.weather.utils.SharepreferenceUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -43,7 +44,6 @@ public class HomepageViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(Call<HomeModel> call, Throwable t) {
-                Log.d("nayibo", "error: " + t.toString());
             }
         });
         startDownloadCity();
@@ -51,7 +51,11 @@ public class HomepageViewModel extends BaseViewModel {
     }
 
     private void startDownloadCity() {
-        DownloadManager.getInstance().startDownload("https://cdn.heweather.com/china-city-list.txt", new DownloadObserver() {
+        if ((boolean) SharepreferenceUtil.get(App.context, Constant.CITY_LIST_DOWNLOAD_COMPLETE, false)) {
+            return;
+        }
+
+        DownloadManager.getInstance().startDownload(Constant.CITY_LIST_URL, new DownloadObserver() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
                 super.onSubscribe(d);
@@ -60,19 +64,17 @@ public class HomepageViewModel extends BaseViewModel {
             @Override
             public void onNext(@NonNull DownloadInfo downloadInfo) {
                 super.onNext(downloadInfo);
-                Log.d("nayibo", "percent: " + 100 * downloadInfo.getProgress() / downloadInfo.getTotal() + " filename: " + downloadInfo.getFileName());
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
                 super.onError(e);
-                Log.d("nayibo", e.toString());
             }
 
             @Override
             public void onComplete() {
                 super.onComplete();
-                Log.d("nayibo", "下载完成");
+                SharepreferenceUtil.put(App.context, Constant.CITY_LIST_DOWNLOAD_COMPLETE, true);
             }
         });
     }
@@ -88,13 +90,12 @@ public class HomepageViewModel extends BaseViewModel {
     }
 
     public void goList() {
-//        StackManager.getInstance().startNewUI(new ListPage(), StackAction.ADD);
-        getDate(4444);
+        StackManager.getInstance().startNewUI(new SearchPage(), StackAction.ADD);
     }
 
     private void getCityName() {
         Observable
-                .create(new ReadFileUtils(App.context.getExternalCacheDir().getPath() + File.separator + "china-city-list(8).txt"))
+                .create(new ReadFileUtils(App.context.getExternalCacheDir().getPath() + File.separator + Constant.CITY_LIST_FILE_NAME))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -107,7 +108,7 @@ public class HomepageViewModel extends BaseViewModel {
                     public void onNext(@NonNull String s) {
                         String[] a = s.split("\\t");
                         if (a.length == 12) {
-
+                            setCityInfo(a);
                         }
                     }
 
@@ -118,8 +119,26 @@ public class HomepageViewModel extends BaseViewModel {
 
                     @Override
                     public void onComplete() {
-                        Log.d("nayibo", "读取完毕");
+                        Constant.getCityBeans().remove(0);
                     }
                 });
+    }
+
+    private void setCityInfo(String[] cityInfo) {
+        CityBean cityBean = new CityBean();
+        cityBean.setCityCode(cityInfo[0]);
+        cityBean.setCityNameEN(cityInfo[1]);
+        cityBean.setCityNameCN(cityInfo[2]);
+        cityBean.setCountryCode(cityInfo[3]);
+        cityBean.setCountryNameEN(cityInfo[4]);
+        cityBean.setCountryNameCN(cityInfo[5]);
+        cityBean.setProvinceNameEN(cityInfo[6]);
+        cityBean.setProvinceCN(cityInfo[7]);
+        cityBean.setParentCityEN(cityInfo[8]);
+        cityBean.setParentCityCN(cityInfo[9]);
+        cityBean.setLatitude(cityInfo[10]);
+        cityBean.setLongitude(cityInfo[11]);
+
+        Constant.getCityBeans().add(cityBean);
     }
 }

@@ -104,28 +104,29 @@ public class DownloadManager {
 
     private DownloadInfo getRealFileName(DownloadInfo downloadInfo) {
         String fileName = downloadInfo.getFileName();
-        long downloadLength = 0, contentLength = downloadInfo.getTotal();
+//        long downloadLength = 0, contentLength = downloadInfo.getTotal();
         File file = new File(App.context.getFilesDir(), fileName);
         if (file.exists()) {
-            downloadLength = file.length();
+//            downloadLength = file.length();
+            file.delete();
         }
-        int i = 1;
-        while (downloadLength != 0 && downloadLength >= contentLength) {
-            int dotIndex = fileName.lastIndexOf(".");
-            String fileNameOther;
-            if (dotIndex == -1) {
-                fileNameOther = fileName + "(" + i + ")";
-            } else {
-                fileNameOther = fileName.substring(0, dotIndex)
-                        + "(" + i + ")" + fileName.substring(dotIndex);
-            }
-            File newFile = new File(App.context.getFilesDir(), fileNameOther);
-            file = newFile;
-            downloadLength = newFile.length();
-            i++;
-        }
-        downloadInfo.setProgress(downloadLength);
-        downloadInfo.setFileName(file.getName());
+//        int i = 1;
+//        while (downloadLength != 0 && downloadLength >= contentLength) {
+//            int dotIndex = fileName.lastIndexOf(".");
+//            String fileNameOther;
+//            if (dotIndex == -1) {
+//                fileNameOther = fileName + "(" + i + ")";
+//            } else {
+//                fileNameOther = fileName.substring(0, dotIndex)
+//                        + "(" + i + ")" + fileName.substring(dotIndex);
+//            }
+//            File newFile = new File(App.context.getFilesDir(), fileNameOther);
+//            file = newFile;
+//            downloadLength = newFile.length();
+//            i++;
+//        }
+//        downloadInfo.setProgress(downloadLength);
+//        downloadInfo.setFileName(file.getName());
         return downloadInfo;
     }
 
