@@ -8,6 +8,11 @@ import android.text.TextUtils;
 import com.weather.nayibo.weather.base.BaseViewModel;
 import com.weather.nayibo.weather.utils.Constant;
 
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+
 /**
  * Created by nayibo on 2018/2/9.
  */
@@ -26,7 +31,12 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             suggestVisibility.set(false);
             mData.clear();
-            mData.add(new SearchSuggestItemViewModel(Constant.getCityBeans().get(text.length())));
+            addSuggestCity(text, new Consumer<CityBean>() {
+                @Override
+                public void accept(CityBean cityBean) throws Exception {
+                    mData.add(new SearchSuggestItemViewModel(cityBean));
+                }
+            });
         }
     }
 
@@ -35,6 +45,16 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void onItemBound(int position) {
+    }
 
+    public void addSuggestCity(final String str, final Consumer<CityBean> consumer) {
+        Observable.fromIterable(Constant.getCityBeans())
+                .filter(new Predicate<CityBean>() {
+                    @Override
+                    public boolean test(@NonNull CityBean cityBean) throws Exception {
+                        return cityBean.getCityNameCN().contains(str) || cityBean.getCityNameEN().contains(str);
+                    }
+                })
+                .subscribe(consumer);
     }
 }
