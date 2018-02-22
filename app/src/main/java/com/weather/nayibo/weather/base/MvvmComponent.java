@@ -6,4 +6,5 @@ public interface MvvmComponent {
 
     ViewModel getViewModel();
 
+//    void onResume();
 }

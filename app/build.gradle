@@ -33,6 +33,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.0.1'
     compile 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.0.1'

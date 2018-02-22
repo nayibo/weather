@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         ViewDataBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         vm = new MainViewModel();
         binding.setVariable(BR.vm, vm);

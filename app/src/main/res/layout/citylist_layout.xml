@@ -6,11 +6,11 @@
 
         <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" />
 
-        <import type="com.weather.nayibo.weather.list.ListItemBinding" />
+        <import type="com.weather.nayibo.weather.citylist.CityListPageItemBinding" />
 
         <variable
             name="vm"
-            type="com.weather.nayibo.weather.list.ListViewModel" />
+            type="com.weather.nayibo.weather.citylist.CityListPageViewModel" />
     </data>
 
     <RelativeLayout
@@ -20,10 +20,27 @@
         android:onViewDetachedFromWindow="@{vm::onViewDetachedFromWindow}"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tv_citylist_add"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="添加城市"
+            app:onClick="@{vm.goSearch}"/>
+
+        <View
+            android:id="@+id/cutline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_citylist_add"
+            android:background="#000000"/>
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemBinding="@{ListItemBinding.get()}"
+            android:layout_below="@id/cutline"
+            app:itemBinding="@{CityListPageItemBinding.get()}"
             app:items="@{vm.items}"
             app:layoutManager="@{LayoutManagers.linear()}"
             app:onItemBound="@{vm::onItemBound}" />
