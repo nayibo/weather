@@ -4,6 +4,8 @@ import android.databinding.BindingAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 public class ViewBindings {
@@ -20,10 +22,6 @@ public class ViewBindings {
                 clickHandler.onClick();
             }
         });
-    }
-
-    public interface ClickHandler {
-        void onClick();
     }
 
     @BindingAdapter("isGone")
@@ -56,7 +54,25 @@ public class ViewBindings {
         });
     }
 
+    @BindingAdapter("checkChange")
+    public static void checkChange(CheckBox view, final CheckChangeHandler checkChangeHandler) {
+        view.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkChangeHandler.onChanged(isChecked);
+            }
+        });
+    }
+
+    public interface ClickHandler {
+        void onClick();
+    }
+
     public interface WatcherHandler {
         void onChanged(String text);
+    }
+
+    public interface CheckChangeHandler {
+        void onChanged(boolean checked);
     }
 }

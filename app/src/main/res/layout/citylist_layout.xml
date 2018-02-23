@@ -27,7 +27,17 @@
             android:gravity="center"
             android:textSize="20sp"
             android:text="添加城市"
-            app:onClick="@{vm.goSearch}"/>
+            app:onClick="@{vm.goSearch}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:text="@{vm.op}"
+            app:onClick="@{vm.edit}"/>
 
         <View
             android:id="@+id/cutline"

@@ -7,12 +7,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.weather.nayibo.weather.App;
 import com.weather.nayibo.weather.base.BaseViewModel;
+import com.weather.nayibo.weather.stack.StackManager;
 import com.weather.nayibo.weather.utils.Constant;
 import com.weather.nayibo.weather.utils.SharepreferenceUtil;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 /**
  * Created by nayibo on 2018/2/9.
@@ -39,10 +44,21 @@ public class SearchSuggestItemViewModel extends BaseViewModel {
             array = gson.fromJson(cityListJson, type);
         }
 
-        array.add(cityBean);
+        boolean flag = false;
+        for (CityBean city : array) {
+            if (city.getCityCode().equals(cityBean.getCityCode())) {
+                flag = true;
+            }
+        }
+
+        if (!flag) {
+            array.add(cityBean);
+        }
 
         Gson gson = new Gson();
         String json = gson.toJson(array);
         SharepreferenceUtil.put(App.context, Constant.CITY_LIST_BEAN, json);
+
+        StackManager.getInstance().back();
     }
 }
