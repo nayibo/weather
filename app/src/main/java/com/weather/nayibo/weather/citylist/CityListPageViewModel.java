@@ -70,7 +70,6 @@ public class CityListPageViewModel extends BaseViewModel {
     }
 
     public void onItemBound(int position) {
-
     }
 
     private void addCity() {
