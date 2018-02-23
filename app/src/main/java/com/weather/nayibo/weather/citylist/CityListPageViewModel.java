@@ -53,18 +53,20 @@ public class CityListPageViewModel extends BaseViewModel {
     }
 
     private void addCity() {
-        String cityListJson = (String) SharepreferenceUtil.get(App.context, Constant.CITY_LIST_BEAN, "");
-
-        ArrayList<CityBean> array = new ArrayList<>();
-
-        if (!TextUtils.isEmpty(cityListJson)) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<CityBean>>() {
-            }.getType();
-            array = gson.fromJson(cityListJson, type);
-        }
-
-        Observable.fromIterable(array)
+        Observable.just((String) SharepreferenceUtil.get(App.context, Constant.CITY_LIST_BEAN, ""))
+                .flatMap(new Function<String, ObservableSource<CityBean>>() {
+                    @Override
+                    public ObservableSource<CityBean> apply(@NonNull String s) throws Exception {
+                        ArrayList<CityBean> array = new ArrayList<>();
+                        if (!TextUtils.isEmpty(s)) {
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<List<CityBean>>() {
+                            }.getType();
+                            array = gson.fromJson(s, type);
+                        }
+                        return Observable.fromIterable(array);
+                    }
+                })
                 .flatMap(new Function<CityBean, ObservableSource<WeatherBean>>() {
                     @Override
                     public ObservableSource<WeatherBean> apply(@NonNull CityBean cityBean) throws Exception {
