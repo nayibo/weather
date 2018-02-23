@@ -57,7 +57,7 @@ public class MainViewModel extends BaseViewModel {
     }
 
     private void startDownloadCity() {
-        if ((boolean) SharepreferenceUtil.get(App.context, Constant.CITY_LIST_DOWNLOAD_COMPLETE, false)) {
+        if ((Boolean) SharepreferenceUtil.get(App.context, Constant.CITY_LIST_DOWNLOAD_COMPLETE, false)) {
             return;
         }
 

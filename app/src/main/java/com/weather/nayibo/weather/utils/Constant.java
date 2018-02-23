@@ -14,6 +14,7 @@ public class Constant {
     public static String CITY_LIST_DOWNLOAD_COMPLETE = "city_list_download_complete";
     public static String CITY_LIST_URL = "https://cdn.heweather.com/china-city-list.txt";
     public static String CITY_LIST_FILE_NAME = "china-city-list.txt";
+    public static String CITY_LIST_BEAN = "city_list_bean";
 
     public static ArrayList<CityBean> getCityBeans() {
         return cityBeans;

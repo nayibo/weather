@@ -1,10 +1,12 @@
 package com.weather.nayibo.weather.search;
 
+import java.io.Serializable;
+
 /**
  * Created by nayibo on 2018/2/8.
  */
 
-public class CityBean {
+public class CityBean implements Serializable {
     private String cityCode;
     private String cityNameEN;
     private String cityNameCN;
