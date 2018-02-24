@@ -3,6 +3,9 @@ package com.weather.nayibo.weather.citylist;
 import android.databinding.ObservableField;
 
 import com.weather.nayibo.weather.base.BaseViewModel;
+import com.weather.nayibo.weather.citydetail.CityDetailPage;
+import com.weather.nayibo.weather.stack.StackAction;
+import com.weather.nayibo.weather.stack.StackManager;
 import com.weather.nayibo.weather.vo.WeatherBean;
 
 /**
@@ -10,6 +13,7 @@ import com.weather.nayibo.weather.vo.WeatherBean;
  */
 
 public class CityListPageItemViewModel extends BaseViewModel {
+    private WeatherBean data;
     public final ObservableField<String> cityCode = new ObservableField<>();
     public final ObservableField<String> cityName = new ObservableField<>();
     public final ObservableField<String> temperature = new ObservableField<>();
@@ -20,6 +24,7 @@ public class CityListPageItemViewModel extends BaseViewModel {
     public final ObservableField<Boolean> isChecked = new ObservableField<>(false);
 
     public CityListPageItemViewModel(WeatherBean model, boolean edit) {
+        data = model;
         cityCode.set(model.getHeWeather6().get(0).getBasic().getCid());
         cityName.set(model.getHeWeather6().get(0).getBasic().getLocation());
         temperature.set(model.getHeWeather6().get(0).getDaily_forecast().get(0).getTmp_max() + " - " + model.getHeWeather6().get(0).getDaily_forecast().get(0).getTmp_min());
@@ -30,6 +35,9 @@ public class CityListPageItemViewModel extends BaseViewModel {
     }
 
     public void selectItem() {
+        if (!isEdit.get()) {
+            StackManager.getInstance().startNewUI(new CityDetailPage(data), StackAction.ADD);
+        }
     }
 
     public void checkChange(boolean checked) {
