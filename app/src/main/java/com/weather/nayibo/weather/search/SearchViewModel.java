@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.weather.nayibo.weather.base.BaseViewModel;
 import com.weather.nayibo.weather.utils.Constant;
@@ -31,12 +32,7 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             suggestVisibility.set(false);
             mData.clear();
-            addSuggestCity(text, new Consumer<CityBean>() {
-                @Override
-                public void accept(CityBean cityBean) throws Exception {
-                    mData.add(new SearchSuggestItemViewModel(cityBean));
-                }
-            });
+            addSuggestCity(text, cityBean -> mData.add(new SearchSuggestItemViewModel(cityBean)));
         }
     }
 
@@ -57,4 +53,15 @@ public class SearchViewModel extends BaseViewModel {
                 })
                 .subscribe(consumer);
     }
+
+    Runnable r = new Runnable() {
+        @Override
+        public void run() {
+        }
+    };
+
+    Runnable rr = () -> {
+        Log.d("nayibo", "fd");
+    };
+
 }

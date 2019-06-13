@@ -82,7 +82,6 @@ public class DownloadManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(downloadObserver);
-
     }
 
     public void cancel(String url) {

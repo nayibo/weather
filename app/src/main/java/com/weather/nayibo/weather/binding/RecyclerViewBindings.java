@@ -20,9 +20,14 @@ public class RecyclerViewBindings {
     }
 
     @BindingAdapter(value = {"itemBinding", "items", "adapter", "itemIds", "viewHolder", "onItemBound"}, requireAll = false)
-    public static <T> void setAdapter(RecyclerView recyclerView, OnItemBind<T> onItemBind, List<T> items,
-                                      BindingRecyclerViewAdapter<T> adapter, BindingRecyclerViewAdapter.ItemIds<? super T> itemIds,
-                                      BindingRecyclerViewAdapter.ViewHolderFactory viewHolderFactory, OnItemBoundHandler<T> onItemBoundHandler) {
+    public static <T> void setAdapter(RecyclerView recyclerView,
+                                      OnItemBind<T> onItemBind,
+                                      List<T> items,
+                                      BindingRecyclerViewAdapter<T> adapter,
+                                      BindingRecyclerViewAdapter.ItemIds<? super T> itemIds,
+                                      BindingRecyclerViewAdapter.ViewHolderFactory viewHolderFactory,
+                                      OnItemBoundHandler<T> onItemBoundHandler) {
+
         ItemBinding<T> itemBinding = ((onItemBind != null) && (onItemBoundHandler != null))
                 ? ItemBinding.of(new OnItemBindWrapper<>(onItemBind, onItemBoundHandler))
                 : ItemBinding.of(onItemBind);
